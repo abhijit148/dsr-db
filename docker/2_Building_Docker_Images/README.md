@@ -1,5 +1,7 @@
 # Building Docker Images
 
+## Basics: How is an image created?
+
 To build your own Docker images, you need to create a [Dockerfile](https://docs.docker.com/engine/reference/builder/).
 
 In this folder, we have already included a `Dockerfile`. Take a look.
