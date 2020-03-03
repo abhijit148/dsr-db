@@ -1,0 +1,10 @@
+version: '3'
+services:
+  redis:
+    image: redis:5.0-alpine
+  app:
+    build: app/
+    depends_on:
+      - redis
+    volumes:
+      - ./app/:/app-code
