@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
 
-<title>Data_Formats slides</title>
+<title>SQL_Recap slides</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13202,76 +13202,90 @@ a.anchor-link {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Data-Formats">Data Formats<a class="anchor-link" href="#Data-Formats">&#182;</a></h1>
-</div>
-</div>
-</div><div class="fragment">
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>When you want to store data, one of the most important considerations is which format to use.</p>
-<p>You can choose between several popular formats, such as: JSON, CSV, Avro, Parquet, and others.</p>
+<h1 id="SQL-Recap">SQL Recap<a class="anchor-link" href="#SQL-Recap">&#182;</a></h1><p>Let's do a recap of SQL commands.</p>
+<p>For this exercise, we will use the <a href="https://github.com/lerocha/chinook-database">Chinook Database</a></p>
+<p>A MySQL dump of the Chinook database is already included in this folder, in location <code>db/</code></p>
 
 </div>
 </div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span> pwd
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>/Users/abhijit/workspace/dsr/databases/3_SQL_Recap
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span> ls db/
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Chinook_Mysql.sql
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div></div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>As an example, let's take the data of some regular employees, and try to store it in all 4 of the above-mentioned data formats.</p>
+<h2 id="MySQL-using-Docker">MySQL using Docker<a class="anchor-link" href="#MySQL-using-Docker">&#182;</a></h2><p>We are going to use a Docker image to set up our MySQL Server. The set-up has already been done in <code>docker-compose.yml</code>.</p>
+<p>Take a minute now to look at the <code>docker-compose.yml</code> file and see if you understand what's happening.</p>
 
 </div>
 </div>
-</div><div class="fragment">
+</div></section></section><section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">employees</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">{</span>
-        <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s2">&quot;Bruce Wayne&quot;</span><span class="p">,</span>
-        <span class="s1">&#39;company&#39;</span><span class="p">:</span> <span class="s2">&quot;Wayne Enterprises&quot;</span><span class="p">,</span>
-        <span class="s1">&#39;role&#39;</span><span class="p">:</span> <span class="s2">&quot;Chairman&quot;</span><span class="p">,</span>
-        <span class="s1">&#39;quote&#39;</span><span class="p">:</span> <span class="s2">&quot;I am the Night&quot;</span><span class="p">,</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s2">&quot;Clark Kent&quot;</span><span class="p">,</span>
-        <span class="s1">&#39;company&#39;</span><span class="p">:</span> <span class="s2">&quot;Daily Planet&quot;</span><span class="p">,</span>
-        <span class="s1">&#39;role&#39;</span><span class="p">:</span> <span class="s2">&quot;Reporter&quot;</span><span class="p">,</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s2">&quot;Steve Rogers&quot;</span><span class="p">,</span>
-        <span class="s1">&#39;company&#39;</span><span class="p">:</span> <span class="s2">&quot;United States Army&quot;</span><span class="p">,</span>
-        <span class="s1">&#39;role&#39;</span><span class="p">:</span> <span class="s2">&quot;Captain&quot;</span><span class="p">,</span>
-        <span class="s1">&#39;quote&#39;</span><span class="p">:</span> <span class="s2">&quot;Avengers! Assemble.&quot;</span><span class="p">,</span>
-    <span class="p">},</span>
-<span class="p">]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div></div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="JSON-(JavaScript-Object-Notation)">JSON (JavaScript Object Notation)<a class="anchor-link" href="#JSON-(JavaScript-Object-Notation)">&#182;</a></h2><blockquote><p>JSON (JavaScript Object Notation) is a lightweight data-interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate.</p>
-</blockquote>
-
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
-
-<span class="k">for</span> <span class="n">emp</span> <span class="ow">in</span> <span class="n">employees</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">emp</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span> cat docker-compose.yml
 </pre></div>
 
     </div>
@@ -13288,12 +13302,18 @@ a.anchor-link {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>
-{&#34;company&#34;: &#34;Wayne Enterprises&#34;, &#34;name&#34;: &#34;Bruce Wayne&#34;, &#34;quote&#34;: &#34;I am the Night&#34;, &#34;role&#34;: &#34;Chairman&#34;}
-
-{&#34;company&#34;: &#34;Daily Planet&#34;, &#34;name&#34;: &#34;Clark Kent&#34;, &#34;role&#34;: &#34;Reporter&#34;}
-
-{&#34;company&#34;: &#34;United States Army&#34;, &#34;name&#34;: &#34;Steve Rogers&#34;, &#34;quote&#34;: &#34;Avengers! Assemble.&#34;, &#34;role&#34;: &#34;Captain&#34;}
+<pre>mysql:
+  image: mysql:5.7
+  container_name: mysql-container
+  ports:
+    - 3306:3306
+  volumes:
+    - ./db/Chinook_Mysql.sql:/docker-entrypoint-initdb.d/dump.sql
+  environment:
+    MYSQL_ROOT_PASSWORD: secret
+    MYSQL_DATABASE: Chinook
+    MYSQL_USER: user
+    MYSQL_PASSWORD: password
 </pre>
 </div>
 </div>
@@ -13305,78 +13325,11 @@ a.anchor-link {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="CSV">CSV<a class="anchor-link" href="#CSV">&#182;</a></h2><blockquote><p>A comma-separated values (CSV) file is a delimited text file that uses a comma to separate values. Each line of the file is a data record. Each record consists of one or more fields, separated by commas. The use of the comma as a field separator is the source of the name for this file format. A CSV file typically stores tabular data (numbers and text) in plain text, in which case each line will have the same number of fields.</p>
-</blockquote>
+<h2 id="Starting-your-MySQL-Server">Starting your MySQL Server<a class="anchor-link" href="#Starting-your-MySQL-Server">&#182;</a></h2><p>To start your mysql server, open a Terminal, and navigate to the folder with this notebook.</p>
+<p>And then run</p>
 
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">csv</span>
-<span class="n">keys</span> <span class="o">=</span> <span class="n">employees</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-<span class="c1"># Write to a CSV File</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;/tmp/employees.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">output_file</span><span class="p">:</span>
-    <span class="n">dict_writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictWriter</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="n">keys</span><span class="p">)</span>
-    <span class="n">dict_writer</span><span class="o">.</span><span class="n">writeheader</span><span class="p">()</span>
-    <span class="n">dict_writer</span><span class="o">.</span><span class="n">writerows</span><span class="p">(</span><span class="n">employees</span><span class="p">)</span>
-<span class="c1"># Read from CSV file</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;/tmp/employees.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">output_file</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">output_file</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>name,company,role,quote
-Bruce Wayne,Wayne Enterprises,Chairman,I am the Night
-Clark Kent,Daily Planet,Reporter,
-Steve Rogers,United States Army,Captain,Avengers! Assemble.
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="CSV">CSV<a class="anchor-link" href="#CSV">&#182;</a></h3><p>Pros:</p>
-<ul>
-<li>Compact</li>
-</ul>
-<p>Cons:</p>
-<ul>
-<li>File means nothing without headers</li>
-<li>No Types are enforced</li>
-<li>Data may have commas, or line breaks in it - making it harder to read</li>
-</ul>
-<h3 id="JSON">JSON<a class="anchor-link" href="#JSON">&#182;</a></h3><p>Pros:</p>
-<ul>
-<li>No headers needed, each record is self-sufficient</li>
-</ul>
-<p>Cons:</p>
-<ul>
-<li>Bulky</li>
-<li>No Types are enforced</li>
-</ul>
+<pre><code>docker-compose up -d</code></pre>
+<p><code>-d</code> will run your container in the background</p>
 
 </div>
 </div>
@@ -13384,42 +13337,78 @@ Steve Rogers,United States Army,Captain,Avengers! Assemble.
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Enter:-Data-Types-and-Schemas">Enter: Data Types and Schemas<a class="anchor-link" href="#Enter:-Data-Types-and-Schemas">&#182;</a></h1>
+<h2 id="Checking-your-MySQL-Server-is-running">Checking your MySQL Server is running<a class="anchor-link" href="#Checking-your-MySQL-Server-is-running">&#182;</a></h2><p>To see if your MySQL Server is running, first list the running containers.</p>
+
+<pre><code>docker ps</code></pre>
+<p>You should see a <code>mysql-container</code> in the output. And now check the logs of this container.</p>
+
+<pre><code>docker logs -f mysql-container</code></pre>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Wait until you see something like this:</p>
+
+<pre><code>2020-02-29T13:43:39.502300Z 0 [Note] Event Scheduler: Loaded 0 events
+2020-02-29T13:43:39.502631Z 0 [Note] mysqld: ready for connections.
+Version: '5.7.29'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server (GPL)</code></pre>
+<p>This means you are now ready to execute MySQL Commands</p>
+<p>Exit out of the logs by pressing <code>Ctrl</code> + <code>C</code></p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Initializing-a-MySQL-Shell">Initializing a MySQL Shell<a class="anchor-link" href="#Initializing-a-MySQL-Shell">&#182;</a></h2><p>To initialize a MySQL Shell, use this command:</p>
+
+<pre><code>docker exec -it mysql-container mysql -u user -p</code></pre>
+<p>Type the password for user from <code>docker-compose.yml</code> (default: <code>password</code>)</p>
+<p>You are now logged in as <code>user</code>.</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Exercise-Time">Exercise Time<a class="anchor-link" href="#Exercise-Time">&#182;</a></h1>
 </div>
 </div>
 </div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">integers</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">1134</span><span class="p">,</span> <span class="o">-</span><span class="mi">456</span><span class="p">]</span>
-<span class="n">decimals</span> <span class="o">=</span> <span class="p">[</span><span class="mf">3.14</span><span class="p">,</span> <span class="mf">1.618</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">]</span>
-<span class="n">varchars</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Hello World&quot;</span><span class="p">,</span> <span class="s2">&quot;DSR&quot;</span><span class="p">]</span>
-<span class="n">booleans</span> <span class="o">=</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]</span>
-<span class="n">dates</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;2014-08-14&quot;</span><span class="p">,</span> <span class="s2">&quot;1995-03-10&quot;</span><span class="p">]</span>
-<span class="n">datetimes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;23-08-14 12:34:56&quot;</span><span class="p">,</span> <span class="s2">&quot;1995-03-10 00:34:11&quot;</span><span class="p">]</span>
-</pre></div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Exercise-1">Exercise 1<a class="anchor-link" href="#Exercise-1">&#182;</a></h2><p>Get all songs (<code>Track</code>) by <strong>Queen</strong> (<code>Artist</code>)</p>
+<p>Hint: <code>Artist</code> is not the same as <code>Composer</code></p>
 
-    </div>
 </div>
 </div>
+</div></div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Exercise-2">Exercise 2<a class="anchor-link" href="#Exercise-2">&#182;</a></h2><p>Get the top 5 playlists (<code>Playlist</code>) with the most number of songs (<code>Track</code>)</p>
 
+</div>
+</div>
+</div></div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Exercise-3">Exercise 3<a class="anchor-link" href="#Exercise-3">&#182;</a></h2><p>Get all artists (<code>Artist</code>) that haven't released any albums (<code>Album</code>)</p>
+
+</div>
+</div>
 </div></div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Pros-and-Cons-of-using-Binary-data-formats">Pros and Cons of using Binary data formats<a class="anchor-link" href="#Pros-and-Cons-of-using-Binary-data-formats">&#182;</a></h2><p>Pros:</p>
-<ul>
-<li>More compact than text formats, takes less space on disk</li>
-<li>Schema acts as documentation</li>
-<li>Enables type checking when reading or writing data</li>
-</ul>
-<p>Cons:</p>
-<ul>
-<li>Not human readable, making them harder to work with</li>
-<li>Might need additional libraries</li>
-</ul>
+<h2 id="Extra-Exercise">Extra Exercise<a class="anchor-link" href="#Extra-Exercise">&#182;</a></h2><p>Get all customer information of customers (<code>Customer</code>) that were invoiced (<code>Invoice</code>) in the year 2011</p>
 
 </div>
 </div>
@@ -13427,232 +13416,11 @@ Steve Rogers,United States Army,Captain,Avengers! Assemble.
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Apache-Avro">Apache Avro<a class="anchor-link" href="#Apache-Avro">&#182;</a></h2><blockquote><p>Avro is a row-oriented remote procedure call and data serialization framework developed within Apache's Hadoop project. It uses JSON for defining data types and protocols, and serializes data in a compact binary format.</p>
-</blockquote>
+<h1 id="Shut-Down">Shut Down<a class="anchor-link" href="#Shut-Down">&#182;</a></h1><p>Exit out of your MySQL session by pressing <code>Ctrl</code> + <code>D</code></p>
 
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">fastavro</span> <span class="kn">import</span> <span class="n">writer</span><span class="p">,</span> <span class="n">reader</span><span class="p">,</span> <span class="n">parse_schema</span>
+<pre><code>docker-compose down</code></pre>
 
-<span class="n">avro_schema</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;doc&#39;</span><span class="p">:</span> <span class="s1">&#39;A weather reading.&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Weather&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;namespace&#39;</span><span class="p">:</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;record&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;fields&#39;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;station&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;long&#39;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;temp&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;int&#39;</span><span class="p">},</span>
-    <span class="p">],</span>
-<span class="p">}</span>
-<span class="n">parsed_schema</span> <span class="o">=</span> <span class="n">parse_schema</span><span class="p">(</span><span class="n">avro_schema</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div></section></section><section><section>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># &#39;records&#39; can be an iterable (including generator)</span>
-<span class="n">records</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">{</span><span class="sa">u</span><span class="s1">&#39;station&#39;</span><span class="p">:</span> <span class="sa">u</span><span class="s1">&#39;011990-99999&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;temp&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="mi">1433269388</span><span class="p">},</span>
-    <span class="p">{</span><span class="sa">u</span><span class="s1">&#39;station&#39;</span><span class="p">:</span> <span class="sa">u</span><span class="s1">&#39;011990-99999&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;temp&#39;</span><span class="p">:</span> <span class="mi">22</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="mi">1433270389</span><span class="p">},</span>
-    <span class="p">{</span><span class="sa">u</span><span class="s1">&#39;station&#39;</span><span class="p">:</span> <span class="sa">u</span><span class="s1">&#39;011990-99999&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;temp&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">11</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="mi">1433273379</span><span class="p">},</span>
-    <span class="p">{</span><span class="sa">u</span><span class="s1">&#39;station&#39;</span><span class="p">:</span> <span class="sa">u</span><span class="s1">&#39;012650-99999&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;temp&#39;</span><span class="p">:</span> <span class="mi">111</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="mi">1433275478</span><span class="p">},</span>
-<span class="p">]</span>
-
-<span class="c1"># Writing</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;/tmp/weather.avro&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out</span><span class="p">:</span>
-    <span class="n">writer</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">parsed_schema</span><span class="p">,</span> <span class="n">records</span><span class="p">)</span>
-
-<span class="c1"># Reading</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;/tmp/weather.avro&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fo</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">(</span><span class="n">fo</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>{&#39;station&#39;: &#39;011990-99999&#39;, &#39;time&#39;: 1433269388, &#39;temp&#39;: 0}
-{&#39;station&#39;: &#39;011990-99999&#39;, &#39;time&#39;: 1433270389, &#39;temp&#39;: 22}
-{&#39;station&#39;: &#39;011990-99999&#39;, &#39;time&#39;: 1433273379, &#39;temp&#39;: -11}
-{&#39;station&#39;: &#39;012650-99999&#39;, &#39;time&#39;: 1433275478, &#39;temp&#39;: 111}
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="What-about-type-checks?">What about type checks?<a class="anchor-link" href="#What-about-type-checks?">&#182;</a></h3><p>Let's emulate what happens when you try to use an incorrect type</p>
-
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># &#39;records&#39; can be an iterable (including generator)</span>
-<span class="n">records</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">{</span><span class="sa">u</span><span class="s1">&#39;station&#39;</span><span class="p">:</span> <span class="sa">u</span><span class="s1">&#39;011990-99999&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;temp&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="mi">1433269388</span><span class="p">},</span>
-    <span class="p">{</span><span class="sa">u</span><span class="s1">&#39;station&#39;</span><span class="p">:</span> <span class="sa">u</span><span class="s1">&#39;011990-99999&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;temp&#39;</span><span class="p">:</span> <span class="mi">22</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="s1">&#39;waldo&#39;</span><span class="p">},</span>
-    <span class="p">{</span><span class="sa">u</span><span class="s1">&#39;station&#39;</span><span class="p">:</span> <span class="sa">u</span><span class="s1">&#39;011990-99999&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;temp&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">11</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="mi">1433273379</span><span class="p">},</span>
-    <span class="p">{</span><span class="sa">u</span><span class="s1">&#39;station&#39;</span><span class="p">:</span> <span class="sa">u</span><span class="s1">&#39;012650-99999&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;temp&#39;</span><span class="p">:</span> <span class="mi">111</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="mi">1433275478</span><span class="p">},</span>
-<span class="p">]</span>
-
-<span class="c1"># Writing</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;/tmp/weather.avro&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out</span><span class="p">:</span>
-        <span class="n">writer</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">parsed_schema</span><span class="p">,</span> <span class="n">records</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>ERROR - unsupported operand type(s) for &lt;&lt;: &#39;str&#39; and &#39;int&#39;
-Traceback (most recent call last):
-  File &#34;&lt;ipython-input-9-52ead7c5d03e&gt;&#34;, line 12, in &lt;module&gt;
-    writer(out, parsed_schema, records)
-  File &#34;fastavro/_write.pyx&#34;, line 600, in fastavro._write.writer
-  File &#34;fastavro/_write.pyx&#34;, line 553, in fastavro._write.Writer.write
-  File &#34;fastavro/_write.pyx&#34;, line 335, in fastavro._write.write_data
-  File &#34;fastavro/_write.pyx&#34;, line 285, in fastavro._write.write_record
-  File &#34;fastavro/_write.pyx&#34;, line 315, in fastavro._write.write_data
-  File &#34;fastavro/_write.pyx&#34;, line 67, in fastavro._write.write_long
-  File &#34;fastavro/_write.pyx&#34;, line 57, in fastavro._write.write_int
-TypeError: unsupported operand type(s) for &lt;&lt;: &#39;str&#39; and &#39;int&#39;
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Apache-Parquet">Apache Parquet<a class="anchor-link" href="#Apache-Parquet">&#182;</a></h2><blockquote><p>Apache Parquet is a free and open-source column-oriented data storage format of the Apache Hadoop ecosystem.</p>
-<p>It provides efficient data compression and encoding schemes with enhanced performance to handle complex data in bulk.</p>
-</blockquote>
-
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>What does <strong>column-oriented data storage</strong> mean?</p>
-<p><img src="images/parquet_columnar_format.png" alt="Parquet Columnar Storage"></p>
-
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-
-<span class="n">MULTIPLIER</span> <span class="o">=</span> <span class="mi">10_000</span>
-<span class="n">records</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">{</span><span class="sa">u</span><span class="s1">&#39;station&#39;</span><span class="p">:</span> <span class="sa">u</span><span class="s1">&#39;011990-99999&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;temp&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="mi">1433269388</span><span class="p">},</span>
-    <span class="p">{</span><span class="sa">u</span><span class="s1">&#39;station&#39;</span><span class="p">:</span> <span class="sa">u</span><span class="s1">&#39;011990-99999&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;temp&#39;</span><span class="p">:</span> <span class="mi">22</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="mi">1433270389</span><span class="p">},</span>
-    <span class="p">{</span><span class="sa">u</span><span class="s1">&#39;station&#39;</span><span class="p">:</span> <span class="sa">u</span><span class="s1">&#39;011990-99999&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;temp&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">11</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="mi">1433273379</span><span class="p">},</span>
-    <span class="p">{</span><span class="sa">u</span><span class="s1">&#39;station&#39;</span><span class="p">:</span> <span class="sa">u</span><span class="s1">&#39;012650-99999&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;temp&#39;</span><span class="p">:</span> <span class="mi">111</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="mi">1433275478</span><span class="p">},</span>
-<span class="p">]</span> <span class="o">*</span> <span class="n">MULTIPLIER</span>
-
-<span class="n">pd_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">records</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Write to parquet</span>
-
-<span class="kn">from</span> <span class="nn">fastparquet</span> <span class="kn">import</span> <span class="n">write</span>
-<span class="n">file_path</span> <span class="o">=</span> <span class="s1">&#39;/tmp/outfile.parquet&#39;</span>
-<span class="n">write</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">pd_df</span><span class="p">)</span>
-<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Wrote a parquet file containing {len(pd_df.index)} records at </span><span class="si">{file_path}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>INFO - Wrote a parquet file containing 40000 records at /tmp/outfile.parquet
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div></div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Data-Formats---Exercise-1">Data Formats - Exercise 1<a class="anchor-link" href="#Data-Formats---Exercise-1">&#182;</a></h1><p>Prove that reading a single column from a parquet file is faster than reading all the columns from the file.</p>
+<pre><code>docker ps</code></pre>
 
 </div>
 </div>

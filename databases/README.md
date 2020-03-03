@@ -21,11 +21,25 @@ Verify your which `pip` you are using
 
 ```
 (dsr-db) ➜  dsr git:(master) ✗ which pip
-/Users/<your-user>/anaconda3/envs/dsr-db/bin/pip
+/anaconda3/envs/dsr-db/bin/pip
 ```
 
 Finally, install the pip requirements. 
 
 ```
 pip install -r requirements.txt
+```
+
+### Starting a jupyter server
+
+Make sure you are using jupyter installed in your `dsr-db` environment
+
+```
+/anaconda3/envs/dsr-db/bin/jupyter
+```
+
+And start a notebook server:
+
+```
+jupyter notebook
 ```
