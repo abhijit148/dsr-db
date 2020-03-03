@@ -9,6 +9,8 @@ The data file is the same as before:
 
 Your objective is to change the code in `app/app.py` to put the data from this file into our redis instance. 
 
+Redis won't accept a `dict` object, so you have to put convert it to string first.
+
 ## Building your project
 
 ```
@@ -28,5 +30,6 @@ docker exec -it 6_redis_exercise_redis_1 redis-cli
 ```
 
 ```
-GET <city>
+127.0.0.1:6379> GET default
+"{'msg': 'Hello World from Redis'}"
 ```

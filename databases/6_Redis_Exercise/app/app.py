@@ -4,6 +4,9 @@ import redis
 REDIS_HOST = 'redis'
 
 r = redis.Redis(REDIS_HOST)
-r.mset({"default": "Hello World from Redis"})
+
+payload = {"msg": "Hello World from Redis"}
+
+r.mset({"default": str(payload)})
 print(r.get("default"))
 
