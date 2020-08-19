@@ -38,6 +38,14 @@ Let's use a Conda extension that makes conda environments available for Jupyter 
 conda install -n dsr-db ipykernel nb_conda_kernels
 ```
 
+
+Validate that you are using the jupyter installation inside our environment:
+
+```
+(dsr-db) ➜  dsr git:(master) ✗ which jupyter
+/anaconda3/envs/dsr-db/bin/jupyter
+```
+
 And start a notebook server:
 
 ```
