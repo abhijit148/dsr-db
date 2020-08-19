@@ -2,4 +2,4 @@ pandas==1.0.1
 jupyter==1.0.0
 jupyterlab==0.31.5
 fastavro==0.22.9
-fastparquet==0.3.3
+fastparquet==0.4.1

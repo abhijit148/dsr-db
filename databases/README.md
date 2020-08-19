@@ -32,10 +32,10 @@ pip install -r requirements.txt
 
 ### Starting a jupyter server
 
-Make sure you are using jupyter installed in your `dsr-db` environment
+Let's use a Conda extension that makes conda environments available for Jupyter notebooks. 
 
 ```
-/anaconda3/envs/dsr-db/bin/jupyter
+conda install -n dsr-db ipykernel nb_conda_kernels
 ```
 
 And start a notebook server:
@@ -43,3 +43,16 @@ And start a notebook server:
 ```
 jupyter notebook
 ```
+
+
+### Choosing the right Kernel
+
+Open the notebook: `1_Data_Formats/Data_Formats.ipynb`
+
+And now validate that the notebook is using the right Kernel.  
+
+![Check executable kernel](images/check_executable_kernel.png)
+
+If not, you can change the kernel:
+
+![Change Kernel](images/change_jupyter_kernel.png)
