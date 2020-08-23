@@ -7,4 +7,5 @@ services:
     depends_on:
       - redis
     volumes:
+      - ../data/:/data
       - ./app/:/app-code
