@@ -21,5 +21,5 @@ docker run --rm custom-dsr
 - Use this Dockerfile as reference
 - Use `ubuntu:18.04` as base image
 - Install python 3.7
-- Create a python file `hello.py` that outputs "Hello World"
+- Create a python file `hello.py` that outputs "Hello from Python"
 - Make sure that this python file is executed on running the image
