@@ -19,7 +19,7 @@ docker run --rm custom-dsr
 ## Exercise: Creating your own Docker image
 
 - Use this Dockerfile as reference
-- Use `ubuntu:16.04` as base image
+- Use `ubuntu:18.04` as base image
 - Install python 3.7
 - Create a python file `hello.py` that outputs "Hello World"
 - Make sure that this python file is executed on running the image
